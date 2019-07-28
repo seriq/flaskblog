@@ -7,8 +7,9 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 import logging
-from logging.handlers import SMTPHandler, RotatingFileHandler
+from logging.handlers import SMTPHandler
 import os
+import sys
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -37,15 +38,14 @@ if not app.debug:
             credentials=auth, secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
-    
-    if not os.path.exists('logs'):
-        os.mkdir('logs')
-    file_handler = RotatingFileHandler('logs/microblog.log', maxBytes=10240,
-                                       backupCount=5)
-    file_handler.setFormatter(logging.Formatter(
+
+    # We dont really want a bunch of logfiles somewhere in a container
+    # so just dump everything to stdout and let docker deal with it
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
+    stream_handler.setLevel(logging.INFO)
+    app.logger.addHandler(stream_handler)
 
     app.logger.setLevel(logging.INFO)
-    app.logger.info('Microblog startup')
+

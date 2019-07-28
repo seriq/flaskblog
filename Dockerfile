@@ -14,8 +14,8 @@ COPY . /srv/blog
 RUN chown -R runner:runner /srv/blog
 
 WORKDIR /srv/blog
-RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
 USER runner
 
-ENTRYPOINT /srv/blog/docker-entrypoint.sh
+ENTRYPOINT ["/srv/blog/docker-entrypoint.sh"]
