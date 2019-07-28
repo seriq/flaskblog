@@ -35,7 +35,7 @@ $(document).ready(function() {
               xhr = null;
           }
           else {
-              // destroy popup here
+              elem.popover("hide");
           }
       }
   )
