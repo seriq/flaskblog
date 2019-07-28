@@ -10,4 +10,4 @@ docker run -p 5000:5000 -v $(pwd):/srv/blog flaskblog:latest
 ### Production setup
 
 docker build -t flaskblog:latest .
-docker run -p 5000:5000 -v $/PATH/TO/DATABASE:/srv/blog flaskblog:latest production
+docker run -p 5000:5000 -v $/PATH/TO/DATABASE:/srv/blog/app.db flaskblog:latest production
