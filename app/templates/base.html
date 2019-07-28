@@ -52,5 +52,5 @@
 {% block scripts %}
     {{ super() }}
     {{ moment.include_moment() }}
-  <script type="text/javascript" src="static/user_popup.js"></script>
+  <script type="text/javascript" src={{ url_for("static", filename="user_popup.js") }}></script>
 {% endblock %}
